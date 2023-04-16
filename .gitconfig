@@ -1,0 +1,7 @@
+[user]
+	email = and.ries@icloud.com
+	name = andreas-ries
+[init]
+	defaultBranch = main
+[core]
+	editor = nvim
