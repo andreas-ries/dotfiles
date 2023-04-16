@@ -102,3 +102,5 @@ source $ZSH/oh-my-zsh.sh
 
 # eval "$(ssh-agent -s)"
 # ssh-add ~/.ssh/id_ed25519
+export PATH=$PATH:~/.local/bin
+
