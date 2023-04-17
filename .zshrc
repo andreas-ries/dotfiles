@@ -104,10 +104,8 @@ source $ZSH/oh-my-zsh.sh
 # ssh-add ~/.ssh/id_ed25519
 export PATH=$PATH:~/.local/bin
 
-if [ -f "~/dev/.zshenv" ]; then
+if [ -f ~/dev/.zshenv ]; then
   source ~/dev/.zshenv
 else
   print "zshenv for dev not found"
 fi
-
-
