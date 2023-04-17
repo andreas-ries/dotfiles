@@ -5,3 +5,5 @@
 	defaultBranch = main
 [core]
 	editor = nvim
+[includeIf "gitdir:~/dev/"]
+    path = ~/dev/.gitconfig
