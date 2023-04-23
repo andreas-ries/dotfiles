@@ -18,6 +18,7 @@
         - zsh
         - wget
         - unzip
+        - default-jre
 
   - name: Copy ssh keys
     copy:
