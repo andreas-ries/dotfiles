@@ -19,6 +19,7 @@
         - wget
         - unzip
         - default-jre
+        - fd-find
 
   - name: Copy ssh keys
     copy:
