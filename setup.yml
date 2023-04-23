@@ -2,16 +2,6 @@
   hosts: localhost
   connection: local 
   tasks:
-  - name: Install nvm
-    ansible.builtin.shell: >
-      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    args:
-      creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
-  - name: Install nodejs && npm
-    ansible.builtin.shell: >
-      source ~/.nvm/nvm.sh && nvm install --lts
-    args:
-      executable: /bin/bash
   - name: Update repositories cache and install packages
     become: yes
     ansible.builtin.apt:
@@ -19,12 +9,94 @@
       pkg:
         - ripgrep
         - wl-clipboard
+        - ca-certificates
+        - curl
+        - gnupg
+        - lsb-release
+        - tmux
+        - fonts-powerline
+        - zsh
+        - wget
+
+  - name: Copy ssh keys
+    copy:
+      src: ./.ssh
+      dest: "{{ ansible_env.HOME }}"
+
+  - name: Link files
+    ansible.builtin.shell: >
+      ./link_files.sh
+
+  - name: Install omz
+    ansible.builtin.shell: >
+      sh -c "$(wget --no-check-certificate https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)" && \
+      chsh -s $(which zsh) && \
+      git clone https://github.com/zsh-users/zsh-autosuggestions {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
+      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    args:
+      creates: ~/.oh-my-zsh
+
+  - name: Create keyrings folder and add docker key
+    ansible.builtin.shell: >
+      sudo mkdir -m 0755 -p /etc/apt/keyrings && \
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
+      echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    args:
+      creates: /etc/apt/keyrings
+
+  - name: Update repositories cache and install docker
+    become: yes
+    ansible.builtin.apt:
+      update_cache: yes
+      pkg:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-buildx-plugin
+        - docker-compose-plugin
+
+  - name: Add user to docker group
+    ansible.builtin.shell: >
+      sudo groupadd -f docker && \
+      sudo usermod -aG docker $USER
+
+  - name: Install nvm
+    ansible.builtin.shell: >
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    args:
+      creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+
+  - name: Install nodejs && npm
+    ansible.builtin.shell: >
+      source ~/.nvm/nvm.sh && nvm install --lts
+    args:
+      executable: /usr/bin/zsh
+
   - name: Install neovim
     ansible.builtin.shell: >
       curl -LO https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb && \
       sudo apt install ./nvim-linux64.deb && \
       rm -f nvim-linux64.deb && \
-      git clone git@github.com:andreas-ries/nvim.git ~/.config/nvim
+      git clone git@github.com:andreas-ries/nvim.git ~/.config/nvim && \
+      nvim --headless "+Lazy! sync" +qa
     args:
       creates: "{{ ansible_env.HOME }}/.config/nvim"
+
+  - name: Install tmux tpm
+    ansible.builtin.shell: >
+      git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    args:
+      creates: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+
+  - name: Install custom font
+    ansible.builtin.shell: >
+      mkdir ~/.fonts && \
+      curl -LO https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/DejaVuSansMono.zip && \
+      unzip DejaVuSansMono.zip -d ~/.fonts && \
+      rm DejaVuSansMono.zip && \
+      fc-cache -f -v
+    args:
+      creates: "{{ ansible_env.HOME }}/.fonts"
 

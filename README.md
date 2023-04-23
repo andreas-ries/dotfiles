@@ -1,6 +1,7 @@
 # dotfiles
 
+## preconditions
+git installed
+
 ## usage
-Run
-	./link_files.sh
 	
