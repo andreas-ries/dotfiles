@@ -97,8 +97,12 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
+alias zshconfig="nvim ~/dotfiles/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+## additional git aliases
+alias gpl="git pull"
+## additional nvim config aliases
+alias nvc="nvim ~/.config/nvim"
 
 # eval "$(ssh-agent -s)"
 # ssh-add ~/.ssh/id_ed25519
