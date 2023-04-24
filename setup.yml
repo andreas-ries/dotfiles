@@ -46,6 +46,7 @@
       sudo add-apt-repository "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" 
     args:
       creates: /etc/apt/keyrings
+    when: install_docker is defined
 
   - name: Update repositories cache and install docker
     become: yes
@@ -57,11 +58,13 @@
         - containerd.io
         - docker-buildx-plugin
         - docker-compose-plugin
+    when: install_docker is defined
 
   - name: Add user to docker group
     ansible.builtin.shell: >
       sudo groupadd -f docker && \
       sudo usermod -aG docker $USER
+    when: install_docker is defined
 
   - name: Install nvm
     ansible.builtin.shell: >
