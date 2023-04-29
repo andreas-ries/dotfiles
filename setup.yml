@@ -9,10 +9,7 @@
       pkg:
         - ripgrep
         - wl-clipboard
-        - ca-certificates
         - curl
-        - gnupg
-        - lsb-release
         - tmux
         - fonts-powerline
         - zsh
@@ -25,6 +22,10 @@
     copy:
       src: ./.ssh
       dest: "{{ ansible_env.HOME }}"
+
+  - name: Set ssh key permissions
+    ansible.builtin.shell:
+      cmd: chmod 0400 ~/.ssh/id_ed25519
 
   - name: Link files
     ansible.builtin.shell: >
@@ -39,32 +40,15 @@
     args:
       creates: ~/.oh-my-zsh
 
-  - name: Create keyrings folder and add docker key
-    ansible.builtin.shell: >
-      sudo mkdir -m 0755 -p /etc/apt/keyrings && \
-      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
-      sudo add-apt-repository "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" 
-    args:
-      creates: /etc/apt/keyrings
-    when: install_docker is defined
-
-  - name: Update repositories cache and install docker
+  - name: Install docker
     become: yes
-    ansible.builtin.apt:
-      update_cache: yes
-      pkg:
-        - docker-ce
-        - docker-ce-cli
-        - containerd.io
-        - docker-buildx-plugin
-        - docker-compose-plugin
-    when: install_docker is defined
-
-  - name: Add user to docker group
     ansible.builtin.shell: >
-      sudo groupadd -f docker && \
-      sudo usermod -aG docker $USER
-    when: install_docker is defined
+      curl -fsSL https://get.docker.com -o get-docker.sh && \ 
+      sh get-docker.sh && \
+      groupadd -f docker && \
+      usermod -aG docker $USER
+    args:
+      creates: /usr/bin/docker
 
   - name: Install nvm
     ansible.builtin.shell: >
