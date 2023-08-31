@@ -52,7 +52,7 @@ ENABLE_CORRECTION="true"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -101,6 +101,10 @@ alias zshconfig="nvim ~/dotfiles/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 ## additional git aliases
 alias gpl="git pull"
+alias gch="git checkout"
+alias gst="git status"
+alias gdi="git diff"
+# alias groot="[ -d .git ] && echo  || cd `git rev-parse --show-toplevel`"
 ## additional nvim config aliases
 alias nvc="nvim ~/.config/nvim"
 

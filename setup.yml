@@ -43,12 +43,13 @@
   - name: Install docker
     become: yes
     ansible.builtin.shell: >
-      curl -fsSL https://get.docker.com -o get-docker.sh && \ 
+      curl -kfsSL https://get.docker.com -o get-docker.sh && \ 
       sh get-docker.sh && \
       groupadd -f docker && \
       usermod -aG docker $USER
     args:
       creates: /usr/bin/docker
+    when: install_docker is defined  
 
   - name: Install nvm
     ansible.builtin.shell: >

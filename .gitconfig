@@ -7,3 +7,12 @@
 	editor = nvim
 [includeIf "gitdir:~/dev/"]
     path = ~/dev/.gitconfig
+[includeIf "gitdir:~/dev_setup/"]
+    path = ~/dev_setup/.gitconfig
+[oh-my-zsh]
+	hide-info = 1
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
