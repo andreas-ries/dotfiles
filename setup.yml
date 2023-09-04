@@ -24,6 +24,11 @@
       cmd: ./get_delta.sh
       creates: "{{ ansible_env.HOME }}/.local/bin/delta"
 
+  - name: Install howdoi
+    shell:
+      cmd: pip3 install howdoi
+      creates: "{{ ansible_env.HOME }}.local/bin/howdoi"
+
   - name: Copy ssh keys
     copy:
       src: ./.ssh
