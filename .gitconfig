@@ -5,10 +5,11 @@
 	defaultBranch = main
 [core]
 	editor = nvim
+	pager = delta
 [includeIf "gitdir:~/dev/"]
-    path = ~/dev/.gitconfig
+	path = ~/dev/.gitconfig
 [includeIf "gitdir:~/dev_setup/"]
-    path = ~/dev_setup/.gitconfig
+	path = ~/dev_setup/.gitconfig
 [oh-my-zsh]
 	hide-info = 1
 [filter "lfs"]
@@ -16,3 +17,14 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true    # use n and N to move between diff sections
+	light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+	side-by-side = true
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
+

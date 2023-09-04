@@ -18,6 +18,11 @@
         - default-jre
         - fd-find
 
+  - name: Install git-delta
+    shell:
+      cmd: ./get_delta.sh
+      creates: "{{ ansible_env.HOME }}/.local/bin/delta"
+
   - name: Copy ssh keys
     copy:
       src: ./.ssh
