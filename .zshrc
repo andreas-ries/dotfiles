@@ -107,6 +107,9 @@ alias gdi="git diff"
 # alias groot="[ -d .git ] && echo  || cd `git rev-parse --show-toplevel`"
 ## additional nvim config aliases
 alias nvc="nvim ~/.config/nvim"
+alias vim="nvim"
+# alias for howdoi
+alias h="howdoi"
 
 # eval "$(ssh-agent -s)"
 # ssh-add ~/.ssh/id_ed25519
