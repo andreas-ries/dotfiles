@@ -70,11 +70,11 @@
 
   - name: Install neovim
     shell:
-      cmd: curl -LO https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb && \
+      cmd: "curl -LO https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb && \
         sudo apt install ./nvim-linux64.deb && \
         rm -f nvim-linux64.deb && \
-        git clone git@github.com:andreas-ries/nvim.git ~/.config/nvim && \
-        nvim --headless "+Lazy! sync" +qa
+        git clone git@github.com:andreas-ries/nvim.git {{ ansible_env.HOME }}/.config/nvim && \
+        nvim --headless \"+Lazy! sync\" +qa"
       creates: "{{ ansible_env.HOME }}/.config/nvim"
 
   - name: Install tmux tpm
