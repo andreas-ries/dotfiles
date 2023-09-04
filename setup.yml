@@ -45,7 +45,7 @@
         sudo chsh -s $(which zsh) && \
         git clone https://github.com/zsh-users/zsh-autosuggestions {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-      creates: ~/.oh-my-zsh
+      creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
 
   - name: Install docker
     become: yes
@@ -64,7 +64,7 @@
 
   - name: Install nodejs && npm
     shell:
-      cmd: source ~/.nvm/nvm.sh && nvm install v18.16.0
+      cmd: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install v18.16.0"
       executable: /usr/bin/zsh
       creates: "{{ ansible_env.HOME }}/.nvm/versions/node/v18.16.0"
 
@@ -79,15 +79,15 @@
 
   - name: Install tmux tpm
     shell:
-      cmd: git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+      cmd: "git clone https://github.com/tmux-plugins/tpm {{ ansible_env.HOME }}/.tmux/plugins/tpm"
       creates: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
 
   - name: Install custom font
     shell:
-      cmd: mkdir ~/.fonts && \
+      cmd: "mkdir {{ ansible_env.HOME }}/.fonts && \
         curl -LO https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/DejaVuSansMono.zip && \
-        unzip DejaVuSansMono.zip -d ~/.fonts && \
+        unzip DejaVuSansMono.zip -d {{ ansible_env.HOME }}/.fonts && \
         rm DejaVuSansMono.zip && \
-        fc-cache -f -v
+        fc-cache -f -v"
       creates: "{{ ansible_env.HOME }}/.fonts"
 
