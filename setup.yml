@@ -28,70 +28,66 @@
     copy:
       src: ./.ssh
       dest: "{{ ansible_env.HOME }}"
+    register: ssh_key_copy
 
   - name: Set ssh key permissions
-    ansible.builtin.shell:
+    shell:
       cmd: chmod 0400 ~/.ssh/id_ed25519
+    when: ssh_key_copy.changed
 
   - name: Link files
-    ansible.builtin.shell: >
-      ./link_files.sh
+    shell:
+      cmd: ./link_files.sh
 
   - name: Install omz
-    ansible.builtin.shell: >
-      sh -c "$(wget --no-check-certificate https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)" && \
-      sudo chsh -s $(which zsh) && \
-      git clone https://github.com/zsh-users/zsh-autosuggestions {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
-      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-    args:
+    shell:
+      cmd: sh -c "$(wget --no-check-certificate https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)" && \
+        sudo chsh -s $(which zsh) && \
+        git clone https://github.com/zsh-users/zsh-autosuggestions {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
       creates: ~/.oh-my-zsh
 
   - name: Install docker
     become: yes
-    ansible.builtin.shell: >
-      curl -kfsSL https://get.docker.com -o get-docker.sh && \ 
-      sh get-docker.sh && \
-      groupadd -f docker && \
-      usermod -aG docker $USER
-    args:
+    shell:
+      cmd: curl -kfsSL https://get.docker.com -o get-docker.sh && \ 
+        sh get-docker.sh && \
+        groupadd -f docker && \
+        usermod -aG docker $USER
       creates: /usr/bin/docker
-    when: install_docker is defined  
+    when: install_docker is defined
 
   - name: Install nvm
-    ansible.builtin.shell: >
-      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    args:
+    shell:
+      cmd: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
       creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
 
   - name: Install nodejs && npm
-    ansible.builtin.shell: >
-      source ~/.nvm/nvm.sh && nvm install --lts
-    args:
+    shell:
+      cmd: source ~/.nvm/nvm.sh && nvm install v18.16.0
       executable: /usr/bin/zsh
+      creates: "{{ ansible_env.HOME }}/.nvm/versions/node/v18.16.0"
 
   - name: Install neovim
-    ansible.builtin.shell: >
-      curl -LO https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb && \
-      sudo apt install ./nvim-linux64.deb && \
-      rm -f nvim-linux64.deb && \
-      git clone git@github.com:andreas-ries/nvim.git ~/.config/nvim && \
-      nvim --headless "+Lazy! sync" +qa
-    args:
+    shell:
+      cmd: curl -LO https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb && \
+        sudo apt install ./nvim-linux64.deb && \
+        rm -f nvim-linux64.deb && \
+        git clone git@github.com:andreas-ries/nvim.git ~/.config/nvim && \
+        nvim --headless "+Lazy! sync" +qa
       creates: "{{ ansible_env.HOME }}/.config/nvim"
 
   - name: Install tmux tpm
-    ansible.builtin.shell: >
-      git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    args:
+    shell:
+      cmd: git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
       creates: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
 
   - name: Install custom font
-    ansible.builtin.shell: >
-      mkdir ~/.fonts && \
-      curl -LO https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/DejaVuSansMono.zip && \
-      unzip DejaVuSansMono.zip -d ~/.fonts && \
-      rm DejaVuSansMono.zip && \
-      fc-cache -f -v
-    args:
+    shell:
+      cmd: mkdir ~/.fonts && \
+        curl -LO https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/DejaVuSansMono.zip && \
+        unzip DejaVuSansMono.zip -d ~/.fonts && \
+        rm DejaVuSansMono.zip && \
+        fc-cache -f -v
       creates: "{{ ansible_env.HOME }}/.fonts"
 
