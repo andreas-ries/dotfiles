@@ -17,6 +17,7 @@
         - unzip
         - default-jre
         - fd-find
+        - fzf
 
   - name: Install git-delta
     shell:
