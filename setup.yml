@@ -18,12 +18,16 @@
         - default-jre
         - fd-find
         - fzf
-        - zoxide
 
   - name: Install git-delta
     shell:
       cmd: ./get_delta.sh
       creates: "{{ ansible_env.HOME }}/.local/bin/delta"
+
+  - name: Install zoxide
+    shell:
+      cmd: curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+      creates: "{{ ansible_env.HOME }}/.local/bin/zoxide"
 
   - name: Install howdoi
     shell:
