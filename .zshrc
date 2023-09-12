@@ -108,6 +108,7 @@ alias gdi="git diff"
 ## additional nvim config aliases
 alias nvc="nvim ~/.config/nvim"
 alias vim="nvim"
+alias vi="nvim"
 # alias for howdoi
 alias h="howdoi"
 
@@ -124,4 +125,15 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+eval "$(zoxide init zsh)"
+
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+
+# ~/.tmux/plugins
+export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
+
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    t
+fi
 

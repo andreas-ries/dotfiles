@@ -10,14 +10,22 @@
         - ripgrep
         - wl-clipboard
         - curl
-        - tmux
         - fonts-powerline
         - zsh
         - wget
         - unzip
         - default-jre
         - fd-find
-        - fzf
+        - libevent-dev
+        - ncurses-dev
+        - build-essential
+        - bison
+        - pkg-config
+
+  - name: Install fzf
+    shell:
+      cmd: "git clone --depth 1 https://github.com/junegunn/fzf.git {{ ansible_env.HOME }}/.fzf && {{ ansible_env.HOME }}/.fzf/install"
+      creates: "{{ ansible_env.HOME }}/.fzf/bin"
 
   - name: Install git-delta
     shell:
@@ -42,12 +50,28 @@
 
   - name: Set ssh key permissions
     shell:
-      cmd: chmod 0400 ~/.ssh/id_ed25519
+      cmd: "chmod 0400 {{ ansible_env.HOME }}/.ssh/id_ed25519"
     when: ssh_key_copy.changed
 
-  - name: Link files
+  - name: Link zshrc
     shell:
-      cmd: ./link_files.sh
+      cmd: "ln -f -s {{ ansible_env.HOME }}/dotfiles/.zshrc {{ ansible_env.HOME }}/.zshrc"
+      creates: "{{ ansible_env.HOME }}/.zshrc"
+
+  - name: Link gitconfig
+    shell:
+      cmd: "ln -f -s {{ ansible_env.HOME }}/dotfiles/.gitconfig {{ ansible_env.HOME }}/.gitconfig"
+      creates: "{{ ansible_env.HOME }}/.gitconfig"
+
+  - name: Link tmux.conf
+    shell:
+      cmd: "ln -f -s {{ ansible_env.HOME }}/dotfiles/.tmux.conf {{ ansible_env.HOME }}/.tmux.conf"
+      creates: "{{ ansible_env.HOME }}/.tmux.conf"
+
+  - name: Link tmux.conf
+    shell:
+      cmd: "ln -f -s {{ ansible_env.HOME }}/dotfiles/.fzf.zsh {{ ansible_env.HOME }}/.fzf.zsh"
+      creates: "{{ ansible_env.HOME }}/.fzf.zsh"
 
   - name: Install omz
     shell:
@@ -99,6 +123,16 @@
         nvim --headless \"+Lazy! sync\" +qa"
       creates: "{{ ansible_env.HOME }}/.config/nvim"
 
+  - name: Install tmux
+    shell:
+      cmd: "curl -LO https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz && \
+        tar -zxf tmux-*.tar.gz && \
+        cd tmux-*/ && \
+        ./configure && \
+        make && \
+        sudo make install && cd .. && rm -rf tmux-*"
+      creates: /usr/local/bin/tmux
+
   - name: Install tmux tpm
     shell:
       cmd: "git clone https://github.com/tmux-plugins/tpm {{ ansible_env.HOME }}/.tmux/plugins/tpm"
@@ -112,4 +146,8 @@
         rm DejaVuSansMono.zip && \
         fc-cache -f -v"
       creates: "{{ ansible_env.HOME }}/.fonts"
-
+  
+  - name: Install lazygit
+    shell:
+      cmd: ./install_lazygit.sh
+      creates: /usr/local/bin/lazygit
