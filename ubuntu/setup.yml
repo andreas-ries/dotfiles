@@ -1,0 +1,47 @@
+- name: Update repositories cache and install packages
+  become: yes
+  ansible.builtin.apt:
+    update_cache: yes
+    pkg:
+      - ripgrep
+      - wl-clipboard
+      - curl
+      - fonts-powerline
+      - zsh
+      - wget
+      - unzip
+      - default-jre
+      - fd-find
+      - libevent-dev
+      - ncurses-dev
+      - build-essential
+      - bison
+      - pkg-config
+
+- name: Install neovim
+  shell:
+    cmd: "curl -LO https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb && \
+      sudo apt install ./nvim-linux64.deb && \
+      rm -f nvim-linux64.deb && \
+      git clone git@github.com:andreas-ries/nvim.git {{ ansible_env.HOME }}/.config/nvim && \
+      nvim --headless \"+Lazy! sync\" +qa"
+    creates: "{{ ansible_env.HOME }}/.config/nvim"
+
+- name: Install custom font
+  shell:
+    cmd: "mkdir {{ ansible_env.HOME }}/.fonts && \
+      curl -LO https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/DejaVuSansMono.zip && \
+      unzip DejaVuSansMono.zip -d {{ ansible_env.HOME }}/.fonts && \
+      rm DejaVuSansMono.zip && \
+      fc-cache -f -v"
+    creates: "{{ ansible_env.HOME }}/.fonts"
+
+- name: Install docker
+  become: yes
+  shell:
+    cmd: curl -kfsSL https://get.docker.com -o get-docker.sh && \ 
+      sh get-docker.sh && \
+      groupadd -f docker && \
+      usermod -aG docker $USER
+    creates: /usr/bin/docker
+
