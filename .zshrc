@@ -112,6 +112,10 @@ alias vi="nvim"
 # alias for howdoi
 alias h="howdoi"
 
+# reloading alias
+alias rl_tmux="tmux source ~/.tmux.conf"
+alias rl_zsh="source ~/.zshrc"
+
 # eval "$(ssh-agent -s)"
 # ssh-add ~/.ssh/id_ed25519
 export PATH=$PATH:~/.local/bin
