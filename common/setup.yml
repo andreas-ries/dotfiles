@@ -64,11 +64,6 @@
     cmd: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
     creates: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 
-- name: Update .bashrc to start zsh
-  shell:
-    cmd: "mv {{ ansible_env.HOME }}/.bashrc {{ ansible_env.HOME }}/.bashrc_bak && ln -f -s {{ ansible_env.HOME }}/dotfiles/.bashrc {{ ansible_env.HOME}}/.bashrc"
-    creates: "{{ ansible_env.HOME }}/.bashrc_bak"
-
 - name: Install nvm
   shell:
     cmd: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash

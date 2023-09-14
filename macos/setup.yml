@@ -22,3 +22,7 @@
       rm DejaVuSansMono.zip
     creates: "{{ ansible_env.HOME }}/Library/Fonts/DejaVu Sans Mono Bold Nerd Font Complete Mono.ttf"
 
+- name: Update .bash_profile to start zsh
+  shell:
+    cmd: "mv {{ ansible_env.HOME }}/.bash_profile {{ ansible_env.HOME }}/.bash_profile_bak && ln -f -s {{ ansible_env.HOME }}/dotfiles/.bashrc {{ ansible_env.HOME}}/.bash_profile"
+    creates: "{{ ansible_env.HOME }}/.bashrc_bak"

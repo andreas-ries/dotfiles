@@ -45,3 +45,8 @@
       usermod -aG docker $USER
     creates: /usr/bin/docker
 
+- name: Update .bashrc to start zsh
+  shell:
+    cmd: "mv {{ ansible_env.HOME }}/.bashrc {{ ansible_env.HOME }}/.bashrc_bak && ln -f -s {{ ansible_env.HOME }}/dotfiles/.bashrc {{ ansible_env.HOME}}/.bashrc"
+    creates: "{{ ansible_env.HOME }}/.bashrc_bak"
+
