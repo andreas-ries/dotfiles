@@ -92,6 +92,6 @@
 
 - name: Install lazygit
   shell:
-    cmd: ./install_lazygit.sh
+    cmd: ./get-lazygit.sh
     creates: /usr/local/bin/lazygit
 
