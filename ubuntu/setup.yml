@@ -1,8 +1,11 @@
 - name: Update repositories cache and install packages
   become: yes
-  ansible.builtin.apt:
+  apt:
     update_cache: yes
     pkg:
+      - ca-certificates
+      - curl
+      - gnupg
       - ripgrep
       - wl-clipboard
       - curl
@@ -36,14 +39,22 @@
       fc-cache -f -v"
     creates: "{{ ansible_env.HOME }}/.fonts"
 
-- name: Install docker
+- name: Setup docker apt repository
   become: yes
   shell:
-    cmd: curl -kfsSL https://get.docker.com -o get-docker.sh && \ 
-      sh get-docker.sh && \
-      groupadd -f docker && \
-      usermod -aG docker $USER
-    creates: /usr/bin/docker
+    cmd: ./get-docker.sh
+    creates: /etc/apt/sources.list.d/docker.list
+
+- name: Update repositories cache and install docker
+  become: yes
+  apt:
+    update_cache: yes
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
 
 - name: Update .bashrc to start zsh
   shell:
