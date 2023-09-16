@@ -6,5 +6,7 @@
  - python3 installed
 
 ## usage
-run ./start.sh SUDO_PASSWD
-	
+Run
+```
+ansible-playbook --ask-vault-pass --ask-become-pass start.yml
+```
