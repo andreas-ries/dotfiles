@@ -116,6 +116,9 @@ alias h="howdoi"
 alias rl_tmux="tmux source ~/.tmux.conf"
 alias rl_zsh="source ~/.zshrc"
 
+# layzgit
+alias lg="lazygit"
+
 # eval "$(ssh-agent -s)"
 # ssh-add ~/.ssh/id_ed25519
 export PATH=$PATH:~/.local/bin
