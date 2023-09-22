@@ -139,6 +139,8 @@ eval "$(zoxide init zsh)"
 
 # ~/.tmux/plugins
 export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
+# add neovim to path
+export PATH=$HOME/.neovim/v0.9.2/bin:$PATH
 
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     t
