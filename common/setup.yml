@@ -44,7 +44,7 @@
     cmd: "ln -f -s {{ ansible_env.HOME }}/dotfiles/.tmux.conf {{ ansible_env.HOME }}/.tmux.conf"
     creates: "{{ ansible_env.HOME }}/.tmux.conf"
 
-- name: Link tmux.conf
+- name: Link fzf.zsh
   shell:
     cmd: "ln -f -s {{ ansible_env.HOME }}/dotfiles/.fzf.zsh {{ ansible_env.HOME }}/.fzf.zsh"
     creates: "{{ ansible_env.HOME }}/.fzf.zsh"
