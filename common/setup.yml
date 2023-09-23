@@ -5,7 +5,7 @@
 
 - name: Install git-delta
   shell:
-    cmd: ./get_delta.sh
+    cmd: installer/get_delta.sh
     creates: "{{ ansible_env.HOME }}/.local/bin/delta"
 
 - name: Install zoxide
@@ -92,6 +92,6 @@
 
 - name: Install lazygit
   shell:
-    cmd: ./get-lazygit.sh
+    cmd: installer/get-lazygit.sh
     creates: /usr/local/bin/lazygit
 
