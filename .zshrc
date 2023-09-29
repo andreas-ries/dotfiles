@@ -99,15 +99,16 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 alias zshconfig="nvim ~/dotfiles/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
 ## additional git aliases
 alias gch="git checkout"
 alias gst="git status"
-alias gdi="git diff"
-# alias groot="[ -d .git ] && echo  || cd `git rev-parse --show-toplevel`"
+
 ## additional nvim config aliases
 alias nvc="nvim ~/.config/nvim"
 alias vim="nvim"
 alias vi="nvim"
+alias v="nvim"
 # alias for howdoi
 alias h="howdoi"
 
