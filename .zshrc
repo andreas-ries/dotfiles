@@ -100,7 +100,6 @@ source $ZSH/oh-my-zsh.sh
 alias zshconfig="nvim ~/dotfiles/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 ## additional git aliases
-alias gpl="git pull"
 alias gch="git checkout"
 alias gst="git status"
 alias gdi="git diff"
