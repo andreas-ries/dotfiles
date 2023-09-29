@@ -20,6 +20,7 @@
       - build-essential
       - bison
       - pkg-config
+      - entr
 
 - name: Install neovim
   shell:
