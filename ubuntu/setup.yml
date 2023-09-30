@@ -21,6 +21,7 @@
       - bison
       - pkg-config
       - entr
+      - python3.10-venv
 
 - name: Install neovim
   shell:

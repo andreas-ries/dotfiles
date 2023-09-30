@@ -1,0 +1,22 @@
+#!/bin/bash
+
+cd $HOME/dotfiles
+
+# check if ansible if path
+if ! [ -x "$(command -v ansible)" ]; then
+	echo 'ansible not found in path'
+	exit 1
+fi
+
+VAULT_PASS_OR_ASK='--ask-vault-pass'
+if [ -f ".vaultpw" ]; then
+	VAULT_PASS_OR_ASK='--vault-password-file .vaultpw'
+fi
+
+BECOME_PASS_OR_ASK='--ask-become-pass'
+if [ -f ".becomepw" ]; then
+	BECOME_PASS_OR_ASK='--become-password-file .becomepw'
+fi
+
+ansible-playbook -i hosts.yml ${VAULT_PASS_OR_ASK} ${BECOME_PASS_OR_ASK} start.yml
+

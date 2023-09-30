@@ -100,10 +100,6 @@ source $ZSH/oh-my-zsh.sh
 alias zshconfig="nvim ~/dotfiles/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-## additional git aliases
-alias gch="git checkout"
-alias gst="git status"
-
 ## additional nvim config aliases
 alias nvc="nvim ~/.config/nvim"
 alias vim="nvim"
@@ -141,6 +137,9 @@ eval "$(zoxide init zsh)"
 export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 # add neovim to path
 export PATH=$HOME/.neovim/v0.9.2/bin:$PATH
+
+# add dotfiles/bin to path
+export PATH=$HOME/dotfiles/bin:$PATH
 
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     t
