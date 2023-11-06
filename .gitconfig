@@ -26,6 +26,7 @@
 	side-by-side = true
 [merge]
 	conflictstyle = diff3
+	tool = nvim
 [diff]
 	colorMoved = default
 
