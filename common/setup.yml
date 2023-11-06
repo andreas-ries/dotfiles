@@ -13,11 +13,6 @@
     cmd: curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
     creates: "{{ ansible_env.HOME }}/.local/bin/zoxide"
 
-- name: Install howdoi
-  shell:
-    cmd: "pip3 install howdoi -t {{ ansible_env.HOME }}/.local/bin/howdoi"
-    creates: "{{ ansible_env.HOME }}/.local/bin/howdoi"
-
 - name: Install python packages from requirements.txt
   shell:
     cmd: "pip3 install -r requirements.txt"

@@ -105,8 +105,6 @@ alias nvc="nvim ~/.config/nvim"
 alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
-# alias for howdoi
-alias h="howdoi"
 
 # reloading alias
 alias rl_tmux="tmux source ~/.tmux.conf"
