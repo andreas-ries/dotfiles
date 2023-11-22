@@ -139,6 +139,8 @@ export PATH=$HOME/.neovim/v0.9.2/bin:$PATH
 # add dotfiles/bin to path
 export PATH=$HOME/dotfiles/bin:$PATH
 
+[ -f "/usr/local/opt/openjdk@17/bin/java" ] && export PATH="/usr/local/opt/openjdk@17/bin":$PATH
+
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     t
 fi

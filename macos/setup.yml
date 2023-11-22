@@ -6,7 +6,7 @@
 
 - name: Install homebrew packages
   shell:
-    cmd: brew install java wget
+    cmd: brew install openjdk@17 wget
 
 - name: Install neovim
   shell:
