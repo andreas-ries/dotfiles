@@ -1,10 +1,11 @@
 - name: "Local dev setup"
   hosts: localhost
-  connection: local 
+  connection: local
+  collections:
+    - community.general
   tasks:
+    - import_tasks: arch/setup.yml
+      when: ansible_distribution == 'Archlinux'
     - import_tasks: ubuntu/setup.yml
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-    - import_tasks: macos/setup.yml
-      when: ansible_distribution == 'MacOSX'
-    - import_tasks: common/setup.yml
 

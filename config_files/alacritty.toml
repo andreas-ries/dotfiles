@@ -1,0 +1,11 @@
+[window]
+startup_mode = "Maximized"
+
+[font]
+size = 8.5
+
+[mouse]
+bindings = [
+{ mouse = "Right", mods = "Control", action = "Copy" },
+]
+

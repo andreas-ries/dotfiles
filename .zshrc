@@ -131,6 +131,10 @@ eval "$(zoxide init zsh)"
 
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
+[ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
+
+export LC_ALL=C.UTF-8
+
 # ~/.tmux/plugins
 export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 # add neovim to path
@@ -140,6 +144,7 @@ export PATH=$HOME/.neovim/v0.9.2/bin:$PATH
 export PATH=$HOME/dotfiles/bin:$PATH
 
 [ -f "/usr/local/opt/openjdk@17/bin/java" ] && export PATH="/usr/local/opt/openjdk@17/bin":$PATH
+[ -f "/usr/lib/jvm/default-runtime/bin/java" ] && export PATH="/usr/lib/jvm/default-runtime/bin/java":$PATH
 
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     t

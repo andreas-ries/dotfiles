@@ -3,9 +3,14 @@
     cmd: "git clone --depth 1 https://github.com/junegunn/fzf.git {{ ansible_env.HOME }}/.fzf && {{ ansible_env.HOME }}/.fzf/install"
     creates: "{{ ansible_env.HOME }}/.fzf/bin"
 
+- name: Prepare directory
+  shell:
+    cmd: "mkdir -p {{ ansible_env.HOME }}/.local/bin"
+    creates: "{{ ansible_env.HOME }}/.local/bin"
+
 - name: Install git-delta
   shell:
-    cmd: installer/get_delta.sh
+    cmd: installer/get-delta.sh
     creates: "{{ ansible_env.HOME }}/.local/bin/delta"
 
 - name: Install zoxide
@@ -13,9 +18,9 @@
     cmd: curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
     creates: "{{ ansible_env.HOME }}/.local/bin/zoxide"
 
-- name: Install python packages from requirements.txt
-  shell:
-    cmd: "pip3 install -r requirements.txt"
+      # - name: Install python packages from requirements.txt
+      #shell:
+      #cmd: "pip3 install -r requirements.txt"
 
 - name: Copy ssh keys
   copy:
