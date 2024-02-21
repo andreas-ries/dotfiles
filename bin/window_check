@@ -1,0 +1,10 @@
+#!/bin/bash
+
+APPLICATION_TO_RUN=$1
+
+wmctrl -a $APPLICATION_TO_RUN
+rc=$?
+if [ ${rc} -eq 1 ]; then
+	$APPLICATION_TO_RUN
+fi
+

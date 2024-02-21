@@ -18,5 +18,10 @@ if [ -f ".becomepw" ]; then
 	BECOME_PASS_OR_ASK='--become-password-file .becomepw'
 fi
 
-ansible-playbook -i hosts.yml ${VAULT_PASS_OR_ASK} ${BECOME_PASS_OR_ASK} start.yml
+ENVIRONMENT_FILE=''
+if [ -f ".env" ]; then
+	ENVIRONMENT_FILE='-e @.env'
+fi
+
+ansible-playbook -i hosts.yml ${VAULT_PASS_OR_ASK} ${BECOME_PASS_OR_ASK} ${ENVIRONMENT_FILE} start.yml
 

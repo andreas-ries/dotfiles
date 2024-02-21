@@ -33,7 +33,7 @@
 - name: Install neovim config
   shell:
     cmd: "git clone git@github.com:andreas-ries/nvim.git {{ ansible_env.HOME }}/.config/nvim && \
-      nvim --headless \"+Lazy! sync\" +qa"
+      {{ ansible_env.HOME }}/.neovim/v0.9.2/bin/nvim --headless \"+Lazy! sync\" +qa"
     creates: "{{ ansible_env.HOME }}/.config/nvim"
 
 - name: Install custom font
