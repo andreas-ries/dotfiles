@@ -18,34 +18,29 @@
     cmd: curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
     creates: "{{ ansible_env.HOME }}/.local/bin/zoxide"
 
-      # - name: Install python packages from requirements.txt
-      #shell:
-      #cmd: "pip3 install -r requirements.txt"
+- name: Install python packages from requirements.txt
+  shell:
+    cmd: "pip3 install --user -r requirements.txt"
 
 - name: Copy ssh keys
   copy:
     src: ./.ssh
     dest: "{{ ansible_env.HOME }}"
-  register: ssh_key_copy
-
-- name: Set ssh key permissions
-  shell:
-    cmd: "chmod 0400 {{ ansible_env.HOME }}/.ssh/id_ed25519"
-  when: ssh_key_copy.changed
+    mode: "0400"
 
 - name: Link zshrc
   shell:
-    cmd: "ln -f -s {{ ansible_env.HOME }}/dotfiles/.zshrc {{ ansible_env.HOME }}/.zshrc"
+    cmd: "ln -f -s {{ playbook_dir }}/config_files/zshrc {{ ansible_env.HOME }}/.zshrc"
     creates: "{{ ansible_env.HOME }}/.zshrc"
 
 - name: Link gitconfig
   shell:
-    cmd: "ln -f -s {{ ansible_env.HOME }}/dotfiles/.gitconfig {{ ansible_env.HOME }}/.gitconfig"
+    cmd: "ln -f -s {{ playbook_dir }}/config_files/gitconfig {{ ansible_env.HOME }}/.gitconfig"
     creates: "{{ ansible_env.HOME }}/.gitconfig"
 
 - name: Link tmux.conf
   shell:
-    cmd: "ln -f -s {{ ansible_env.HOME }}/dotfiles/.tmux.conf {{ ansible_env.HOME }}/.tmux.conf"
+    cmd: "ln -f -s {{ playbook_dir }}/config_files/tmux.conf {{ ansible_env.HOME }}/.tmux.conf"
     creates: "{{ ansible_env.HOME }}/.tmux.conf"
 
 - name: Install omz
