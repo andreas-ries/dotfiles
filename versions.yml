@@ -1,0 +1,5 @@
+---
+tmux_version: 3.4
+fzf_version: 0.46.1
+sesh_version: v0.15.0
+alacritty_version: x.xx

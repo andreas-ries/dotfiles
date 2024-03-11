@@ -1,12 +1,32 @@
-- name: Install fzf
-  shell:
-    cmd: "git clone --depth 1 https://github.com/junegunn/fzf.git {{ ansible_env.HOME }}/.fzf && {{ ansible_env.HOME }}/.fzf/install"
-    creates: "{{ ansible_env.HOME }}/.fzf/bin"
+- name: Include version variables
+  include_vars: versions.yml
 
-- name: Prepare directory
+- name: Prepare directory .local/other
+  shell:
+    cmd: "mkdir -p {{ ansible_env.HOME }}/.local/other"
+    creates: "{{ ansible_env.HOME }}/.local/other"
+
+- name: Prepare directory .local/bin
   shell:
     cmd: "mkdir -p {{ ansible_env.HOME }}/.local/bin"
     creates: "{{ ansible_env.HOME }}/.local/bin"
+
+- name: "Install sesh {{ sesh_version }}"
+  shell:
+    cmd: "go install github.com/joshmedeski/sesh@{{ sesh_version }} && \
+      touch {{ ansible_env.HOME }}/go/bin/sesh.{{ sesh_version }}"
+    creates: "{{ ansible_env.HOME }}/go/bin/sesh.{{ sesh_version }}"
+
+- name: Clone fzf
+  shell:
+    cmd: "git clone https://github.com/junegunn/fzf.git {{ ansible_env.HOME }}/.local/other/fzf"
+    creates: "{{ ansible_env.HOME }}/.local/other/fzf"
+
+- name: "Install fzf version {{ fzf_version }}"
+  shell:
+    cmd: "git fetch --all && git checkout {{ fzf_version }} && ./install && touch bin/{{ fzf_version }}"
+    chdir: "{{ ansible_env.HOME }}/.local/other/fzf"
+    creates: "{{ ansible_env.HOME }}/.local/other/fzf/bin/{{ fzf_version }}"
 
 - name: Install git-delta
   shell:
@@ -18,9 +38,9 @@
     cmd: curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
     creates: "{{ ansible_env.HOME }}/.local/bin/zoxide"
 
-- name: Install python packages from requirements.txt
-  shell:
-    cmd: "pip3 install --user -r requirements.txt"
+# - name: Install python packages from requirements.txt
+#   shell:
+#     cmd: "pip3 install --user -r requirements.txt"
 
 - name: Copy ssh keys
   copy:
@@ -43,6 +63,11 @@
     cmd: "ln -f -s {{ playbook_dir }}/config_files/tmux.conf {{ ansible_env.HOME }}/.tmux.conf"
     creates: "{{ ansible_env.HOME }}/.tmux.conf"
 
+- name: Link powerlevel10k theme
+  shell:
+    cmd: "ln -f -s {{ playbook_dir }}/config_files/p10k.zsh {{ ansible_env.HOME }}/.p10k.zsh"
+    creates: "{{ ansible_env.HOME }}/.p10k.zsh"
+
 - name: Install omz
   shell:
     cmd: sh -c "$(wget --no-check-certificate https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
@@ -58,6 +83,11 @@
     cmd: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
     creates: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 
+- name: Install powerlevel10k
+  shell:
+    cmd: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git {{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k
+    creates: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+
 - name: Install nvm
   shell:
     cmd: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
@@ -69,15 +99,21 @@
     executable: /usr/bin/zsh
     creates: "{{ ansible_env.HOME }}/.nvm/versions/node/v18.16.0"
 
-- name: Install tmux
+- name: Clone tmux
   shell:
-    cmd: "curl -LO https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz && \
-      tar -zxf tmux-*.tar.gz && \
-      cd tmux-*/ && \
+    cmd: "git clone https://github.com/tmux/tmux.git {{ ansible_env.HOME }}/.local/other/tmux"
+    creates: "{{ ansible_env.HOME }}/.local/other/tmux"
+
+- name: "Install tmux version {{ tmux_version }}"
+  shell:
+    cmd: "git fetch --all && git checkout {{ tmux_version }} && \
+      sh autogen.sh && \
       ./configure && \
       make && \
-      sudo make install && cd .. && rm -rf tmux-*"
-    creates: /usr/local/bin/tmux
+      sudo cp tmux /usr/local/bin/tmux && \
+      touch tmux.{{ tmux_version }}"
+    chdir: "{{ ansible_env.HOME }}/.local/other/tmux"
+    creates: "{{ ansible_env.HOME }}/.local/other/tmux/tmux.{{ tmux_version }}"
 
 - name: Install tmux tpm
   shell:

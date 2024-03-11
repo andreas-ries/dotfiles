@@ -1,8 +1,11 @@
-[window]
-startup_mode = "Maximized"
+# [window]
+# startup_mode = "Maximized"
+import = [
+    "~/.config/alacritty/themes/themes/breezy.toml"
+]
 
 [font]
-size = 8.5
+size = 9
 
 [mouse]
 bindings = [
