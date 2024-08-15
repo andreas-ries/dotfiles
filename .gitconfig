@@ -8,6 +8,8 @@
 	pager = delta
 [includeIf "gitdir:~/dev/"]
 	path = ~/dev/.gitconfig
+[includeIf "gitdir:~/dev_xui/"]
+	path = ~/dev/.gitconfig
 [includeIf "gitdir:~/dev_setup/"]
 	path = ~/dev_setup/.gitconfig
 [oh-my-zsh]

@@ -21,7 +21,7 @@
       - bison
       - pkg-config
       - python3-venv
-      - go
+      - kdiff3
 
 - name: Install neovim
   shell:

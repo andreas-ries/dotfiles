@@ -3,12 +3,10 @@
   connection: local
   collections:
     - community.general
-  vars_files:
-    - vars.yml
   tasks:
     - import_tasks: arch/setup.yml
       when: ansible_distribution == 'Archlinux'
-    - import_tasks: common/setup.yml
     - import_tasks: ubuntu/setup.yml
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'or ansible_distribution == 'Linux Mint'
+    - import_tasks: common/setup.yml
 
