@@ -4,7 +4,14 @@ cd $HOME/dotfiles
 
 # check if ansible if path
 if ! [ -x "$(command -v ansible)" ]; then
-	echo 'ansible not found in path'
+	echo 'ansible not found in path!'
+	echo 'Run `pip3 install ansible`'
+	exit 1
+fi
+# check if go is in path
+if ! [ -x "$(command -v go)" ]; then
+	echo 'go not found in path!'
+	echo 'Run `sudo apt install golang` or `sudo pacman -S go`'
 	exit 1
 fi
 
