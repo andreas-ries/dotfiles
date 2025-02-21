@@ -63,30 +63,20 @@
     cmd: "ln -f -s {{ playbook_dir }}/config_files/tmux.conf {{ ansible_env.HOME }}/.tmux.conf"
     creates: "{{ ansible_env.HOME }}/.tmux.conf"
 
-- name: Link powerlevel10k theme
+- name: Create .zsh directory
   shell:
-    cmd: "ln -f -s {{ playbook_dir }}/config_files/p10k.zsh {{ ansible_env.HOME }}/.p10k.zsh"
-    creates: "{{ ansible_env.HOME }}/.p10k.zsh"
-
-- name: Install omz
-  shell:
-    cmd: sh -c "$(wget --no-check-certificate https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
-    creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
+    cmd: "mkdir -p {{ansible_env.HOME}}/.zsh/plugins"
+    creates: "{{ansible_env.HOME}}/.zsh/plugins"
 
 - name: Install zsh-autosuggestions
   shell:
-    cmd: git clone https://github.com/zsh-users/zsh-autosuggestions {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-    creates: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    cmd: git clone https://github.com/zsh-users/zsh-autosuggestions {{ ansible_env.HOME }}/.zsh/plugins/zsh-autosuggestions
+    creates: "{{ ansible_env.HOME }}/.zsh/plugins/zsh-autosuggestions"
 
 - name: Install zsh-syntax-highlighting
   shell:
-    cmd: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-    creates: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-
-- name: Install powerlevel10k
-  shell:
-    cmd: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git {{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k
-    creates: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    cmd: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ ansible_env.HOME }}/.zsh/plugins/zsh-syntax-highlighting
+    creates: "{{ ansible_env.HOME }}/.zsh/plugins/zsh-syntax-highlighting"
 
 - name: Install nvm
   shell:

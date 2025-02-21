@@ -1,20 +1,12 @@
 export LC_ALL=en_US.UTF-8
 
 setopt PROMPT_SUBST
+setopt HIST_SAVE_NO_DUPS
+export ZDOTDIR=$HOME/.zsh
 
-# Path to your oh-my-zsh installation.
-# export ZSH="$HOME/.oh-my-zsh"
-
-# theme
-# ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# omz options
-# HYPHEN_INSENSITIVE="true"
-# ENABLE_CORRECTION="true"
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-# plugins=(zsh-autosuggestions zsh-syntax-highlighting)
-
-export HISTFILE=$HOME/.zsh_history
+export HISTFILE=$ZDOTDIR/.zsh_history
+export HISTSIZE=100000
+export SAVEHIST=100000
 autoload -U compinit; compinit
 
 ## additional nvim config aliases
@@ -23,6 +15,13 @@ alias vi="nvim"
 alias v="nvim"
 # layzgit
 alias lg="lazygit"
+
+alias l="ls"
+alias ll="ls -la"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 
 export PATH=$PATH:$HOME/.local/bin
 
@@ -39,16 +38,15 @@ fi
 eval "$(zoxide init zsh)"
 
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
-# [ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
 
 # add neovim, dotfiles/bin and go/bin to path
-export PATH=$HOME/.neovim/v0.9.2/bin:$HOME/dotfiles/bin:$HOME/go/bin:$PATH
+export PATH=$HOME/.neovim/v0.10.4/bin:$HOME/dotfiles/bin:$HOME/go/bin:$PATH
 
 # [ -f "/usr/local/opt/openjdk@17/bin/java" ] && export PATH="/usr/local/opt/openjdk@17/bin":$PATH
 # [ -f "/usr/lib/jvm/default-runtime/bin/java" ] && export PATH="/usr/lib/jvm/default-runtime/bin/java":$PATH
-#
-source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+source $ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 export PROMPT='%F{yellow}%~ %F{red}>%F{reset_color} '
 

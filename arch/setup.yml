@@ -30,18 +30,18 @@
       - docker
       - go
 
-- name: Install neovim
+- name: Install neovim version {{ neovim_version }}
   shell:
-    cmd: "mkdir -p {{ ansible_env.HOME }}/.neovim/v0.9.2 && \
-      curl -LO https://github.com/neovim/neovim/releases/download/v0.9.2/nvim-linux64.tar.gz && \
-      tar xzvf nvim-linux64.tar.gz -C {{ ansible_env.HOME }}/.neovim/v0.9.2 --strip-components=1 && \
-      rm -f nvim-linux64.tar.gz"
-    creates: "{{ ansible_env.HOME }}/.neovim/v0.9.2/bin/nvim"
+    cmd: "mkdir -p {{ ansible_env.HOME }}/.neovim/{{ neovim_version }} && \
+      curl -LO https://github.com/neovim/neovim/releases/download/{{ neovim_version }}/nvim-linux-x86_64.tar.gz && \
+      tar xzvf nvim-linux-x86_64.tar.gz -C {{ ansible_env.HOME }}/.neovim/{{ neovim_version }} --strip-components=1 && \
+      rm -f nvim-linux-x86_64.tar.gz"
+    creates: "{{ ansible_env.HOME }}/.neovim/{{ neovim_version }}/bin/nvim"
 
 - name: Install neovim config
   shell:
     cmd: "git clone git@github.com:andreas-ries/nvim.git {{ ansible_env.HOME }}/.config/nvim && \
-      {{ ansible_env.HOME }}/.neovim/v0.9.2/bin/nvim --headless \"+Lazy! sync\" +qa"
+      {{ ansible_env.HOME }}/.neovim/{{ neovim_version }}/bin/nvim --headless \"+Lazy! sync\" +qa"
     creates: "{{ ansible_env.HOME }}/.config/nvim"
 
 - name: Install custom font
