@@ -11,7 +11,7 @@
       - powerline-fonts
       - wget
       - unzip
-      - jre17-openjdk
+      - jdk17-openjdk
       - fd
       - libevent
       - ncurses
