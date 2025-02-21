@@ -23,6 +23,11 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
+# [Ctrl-RightArrow] - move forward one word
+bindkey '^[[1;5C' forward-word
+# [Ctrl-LeftArrow] - move backward one word
+bindkey '^[[1;5D' backward-word
+
 export PATH=$PATH:$HOME/.local/bin
 
 if [ -f ~/dev/.zshenv ]; then
