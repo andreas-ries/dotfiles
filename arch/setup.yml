@@ -53,11 +53,6 @@
       fc-cache -f -v"
     creates: "{{ ansible_env.HOME }}/.fonts"
 
-- name: Update .bashrc to start zsh
-  shell:
-    cmd: "mv {{ ansible_env.HOME }}/.bashrc {{ ansible_env.HOME }}/.bashrc_bak && ln -f -s {{ ansible_env.HOME }}/dotfiles/.bashrc {{ ansible_env.HOME}}/.bashrc"
-    creates: "{{ ansible_env.HOME }}/.bashrc_bak"
-
 - name: Install rust
   shell:
     cmd: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"

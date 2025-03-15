@@ -78,6 +78,11 @@
     cmd: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ ansible_env.HOME }}/.zsh/plugins/zsh-syntax-highlighting
     creates: "{{ ansible_env.HOME }}/.zsh/plugins/zsh-syntax-highlighting"
 
+- name: Install zsh-you-should-use
+  shell:
+    cmd: git clone https://github.com/MichaelAquilina/zsh-you-should-use.git {{ ansible_env.HOME }}/.zsh/plugins/zsh-you-should-use
+    creates: "{{ ansible_env.HOME }}/.zsh/plugins/zsh-you-should-use"
+
 - name: Install nvm
   shell:
     cmd: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
