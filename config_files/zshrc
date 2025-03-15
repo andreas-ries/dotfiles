@@ -1,5 +1,6 @@
 export LC_ALL=en_US.UTF-8
 
+setopt share_history
 setopt PROMPT_SUBST
 setopt HIST_SAVE_NO_DUPS
 export ZDOTDIR=$HOME/.zsh
@@ -13,8 +14,12 @@ autoload -U compinit; compinit
 alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
+
 # layzgit
 alias lg="lazygit"
+
+# alias sourcing 'standard' venv
+alias sv="source venv/bin/activate"
 
 # ls alias
 alias ls="ls --color=auto"
@@ -40,11 +45,8 @@ else
   print "zshenv for dev not found"
 fi
 
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 eval "$(zoxide init zsh)"
+alias cd=z
 
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
@@ -61,3 +63,5 @@ source $ZDOTDIR/plugins/zsh-you-should-use/you-should-use.plugin.zsh
 export PROMPT='%F{yellow}%~ %F{red}>%F{reset_color} '
 export YSU_MESSAGE_POSITION="after"
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
