@@ -1,7 +1,7 @@
 ---
 tmux_version: 3.5a
 fzf_version: v0.60.3
-lazygit_version: 0.48.0
+lazygit_version: 0.47.2
 sesh_version: latest
 alacritty_version: x.xx
 neovim_version: v0.10.4

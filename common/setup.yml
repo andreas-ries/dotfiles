@@ -120,11 +120,11 @@
     cmd: "git clone https://github.com/tmux-plugins/tpm {{ ansible_env.HOME }}/.tmux/plugins/tpm"
     creates: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
 
-- name: Install lazygit {{ lazygit_version }}
+- name: "Install lazygit {{ lazygit_version }}"
   shell:
-    cmd: curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v{{ lazygit_version }}/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz" \
-      tar xf lazygit.tar.gz lazygit \
-      sudo install lazygit /usr/local/bin && touch /usr/local/bin/lazygit.{{ lazygit_version }}\
-      rm -rf lazygit*
-    creates: /usr/local/bin/lazygit
+    cmd: "curl -Lo lazygit.tar.gz https://github.com/jesseduffield/lazygit/releases/download/v{{ lazygit_version }}/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz && \
+      tar xf lazygit.tar.gz lazygit && \
+      sudo install lazygit /usr/local/bin && sudo touch /usr/local/bin/lazygit.{{ lazygit_version }} && \
+      rm -rf lazygit*"
+    creates: "/usr/local/bin/lazygit.{{ lazygit_version }}"
 
