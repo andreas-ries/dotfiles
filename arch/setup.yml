@@ -58,11 +58,17 @@
     cmd: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
     creates: "{{ ansible_env.HOME }}/.cargo/bin/rustup"
 
-- name: Get Alacritty v0.13.1
+- name: Clone Alacritty repository
   shell:
-    cmd: "git clone https://github.com/alacritty/alacritty.git {{ ansible_env.HOME }}/.local/other/alacritty && cd {{ ansible_env.HOME }}/.local/other/alacritty && git checkout v0.13.1"
+    cmd: "git clone https://github.com/alacritty/alacritty.git {{ ansible_env.HOME }}/.local/other/alacritty"
     chdir: "{{ ansible_env.HOME }}"
     creates: "{{ ansible_env.HOME }}/.local/other/alacritty"
+
+- name: Checkout Alacritty {{ alacritty_version }}
+  shell:
+    cmd: "git fetch --all && git clean -fdx . && git checkout {{ alacritty_version }} && touch {{ alacritty_version }}"
+    chdir: "{{ ansible_env.HOME }}/.local/other/alacritty"
+    creates: "{{ alacritty_version }}"
 
 - name: Compile Alacritty
   shell:
@@ -73,13 +79,13 @@
 - name: Install Alacritty locally
   become: yes
   shell:
-    cmd: "sudo cp target/release/alacritty /usr/local/bin/alacritty.0.13.1 && \
-      sudo ln -f -s /usr/local/bin/alacritty.0.13.1 /usr/local/bin/alacritty && \
+    cmd: "sudo cp target/release/alacritty /usr/local/bin/alacritty.{{ alacritty_version }} && \
+      sudo ln -f -s /usr/local/bin/alacritty.{{ alacritty_version }} /usr/local/bin/alacritty && \
       sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg && \
       sudo desktop-file-install extra/linux/Alacritty.desktop && \
       sudo update-desktop-database"
     chdir: "{{ ansible_env.HOME }}/.local/other/alacritty"
-    creates: "/usr/local/bin/alacritty.0.13.1"
+    creates: "/usr/local/bin/alacritty.{{ alacritty_version }}"
 
 - name: Link alacritty.toml
   shell:
