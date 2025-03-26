@@ -5,3 +5,4 @@ lazygit_version: 0.47.2
 sesh_version: latest
 alacritty_version: v0.15.1
 neovim_version: v0.10.4
+bat_version: v0.25.0

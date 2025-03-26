@@ -11,6 +11,11 @@
     cmd: "mkdir -p {{ ansible_env.HOME }}/.local/bin"
     creates: "{{ ansible_env.HOME }}/.local/bin"
 
+- name: Install rust
+  shell:
+    cmd: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
+    creates: "{{ ansible_env.HOME }}/.cargo/bin/rustup"
+
 - name: "Install sesh {{ sesh_version }}"
   shell:
     cmd: "go install github.com/joshmedeski/sesh@{{ sesh_version }} && \
@@ -128,3 +133,15 @@
       rm -rf lazygit*"
     creates: "/usr/local/bin/lazygit.{{ lazygit_version }}"
 
+- name: "Clone bat"
+  shell:
+    cmd: "git clone https://github.com/sharkdp/bat.git {{ ansible_env.HOME }}/.local/other/bat"
+    creates: "{{ ansible_env.HOME }}/.local/other/bat"
+
+- name: "Install bat version {{ bat_version }}"
+  shell:
+    cmd: "git fetch --all && git checkout {{ bat_version }} && \
+      cargo install --locked bat &&
+      touch bat.{{ bat_version }}"
+    chdir: "{{ ansible_env.HOME }}/.local/other/bat"
+    creates: "{{ ansible_env.HOME }}/.local/other/bat/bat.{{ bat_version }}"

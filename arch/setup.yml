@@ -29,6 +29,7 @@
       - zsh
       - docker
       - go
+      - sysstat
 
 - name: Install neovim version {{ neovim_version }}
   shell:

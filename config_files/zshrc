@@ -32,6 +32,9 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
+# replace cat with bat
+alias cat="bat"
+
 # [Ctrl-RightArrow] - move forward one word
 bindkey '^[[1;5C' forward-word
 # [Ctrl-LeftArrow] - move backward one word
@@ -51,7 +54,7 @@ alias cd=z
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
 # add neovim, dotfiles/bin and go/bin to path
-export PATH=$HOME/.neovim/v0.10.4/bin:$HOME/dotfiles/bin:$HOME/go/bin:$HOME/.nvm/versions/node/v18.16.0/bin:$PATH
+export PATH=$HOME/.cargo/bin:$HOME/.neovim/v0.10.4/bin:$HOME/dotfiles/bin:$HOME/go/bin:$HOME/.nvm/versions/node/v18.16.0/bin:$PATH
 
 # [ -f "/usr/local/opt/openjdk@17/bin/java" ] && export PATH="/usr/local/opt/openjdk@17/bin":$PATH
 # [ -f "/usr/lib/jvm/default-runtime/bin/java" ] && export PATH="/usr/lib/jvm/default-runtime/bin/java":$PATH
@@ -63,5 +66,3 @@ source $ZDOTDIR/plugins/zsh-you-should-use/you-should-use.plugin.zsh
 export PROMPT='%F{yellow}%~ %F{red}>%F{reset_color} '
 export YSU_MESSAGE_POSITION="after"
 
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
