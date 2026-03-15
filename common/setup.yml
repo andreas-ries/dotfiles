@@ -3,45 +3,49 @@
 
 - name: Prepare directory .local/other
   shell:
-    cmd: "mkdir -p {{ ansible_env.HOME }}/.local/other"
-    creates: "{{ ansible_env.HOME }}/.local/other"
+    cmd: "mkdir -p {{ lookup('env', 'HOME') }}/.local/other"
+    creates: "{{ lookup('env', 'HOME') }}/.local/other"
 
 - name: Prepare directory .local/bin
   shell:
-    cmd: "mkdir -p {{ ansible_env.HOME }}/.local/bin"
-    creates: "{{ ansible_env.HOME }}/.local/bin"
+    cmd: "mkdir -p {{ lookup('env', 'HOME') }}/.local/bin"
+    creates: "{{ lookup('env', 'HOME') }}/.local/bin"
 
 - name: Install rust
   shell:
     cmd: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
-    creates: "{{ ansible_env.HOME }}/.cargo/bin/rustup"
+    creates: "{{ lookup('env', 'HOME') }}/.cargo/bin/rustup"
+
+- name: Update rust
+  shell:
+    cmd: "rustup update"
 
 - name: "Install sesh {{ sesh_version }}"
   shell:
     cmd: "go install github.com/joshmedeski/sesh@{{ sesh_version }} && \
-      touch {{ ansible_env.HOME }}/go/bin/sesh.{{ sesh_version }}"
-    creates: "{{ ansible_env.HOME }}/go/bin/sesh.{{ sesh_version }}"
+      touch {{ lookup('env', 'HOME') }}/go/bin/sesh.{{ sesh_version }}"
+    creates: "{{ lookup('env', 'HOME') }}/go/bin/sesh.{{ sesh_version }}"
 
 - name: Clone fzf
   shell:
-    cmd: "git clone https://github.com/junegunn/fzf.git {{ ansible_env.HOME }}/.local/other/fzf"
-    creates: "{{ ansible_env.HOME }}/.local/other/fzf"
+    cmd: "git clone https://github.com/junegunn/fzf.git {{ lookup('env', 'HOME') }}/.local/other/fzf"
+    creates: "{{ lookup('env', 'HOME') }}/.local/other/fzf"
 
 - name: "Install fzf version {{ fzf_version }}"
   shell:
     cmd: "git fetch --all && git checkout {{ fzf_version }} && ./install && touch bin/{{ fzf_version }}"
-    chdir: "{{ ansible_env.HOME }}/.local/other/fzf"
-    creates: "{{ ansible_env.HOME }}/.local/other/fzf/bin/{{ fzf_version }}"
+    chdir: "{{ lookup('env', 'HOME') }}/.local/other/fzf"
+    creates: "{{ lookup('env', 'HOME') }}/.local/other/fzf/bin/{{ fzf_version }}"
 
 - name: Install git-delta
   shell:
     cmd: installer/get-delta.sh
-    creates: "{{ ansible_env.HOME }}/.local/bin/delta"
+    creates: "{{ lookup('env', 'HOME') }}/.local/bin/delta"
 
 - name: Install zoxide
   shell:
     cmd: curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
-    creates: "{{ ansible_env.HOME }}/.local/bin/zoxide"
+    creates: "{{ lookup('env', 'HOME') }}/.local/bin/zoxide"
 
 # - name: Install python packages from requirements.txt
 #   shell:
@@ -50,64 +54,64 @@
 - name: Copy ssh keys
   copy:
     src: ./.ssh
-    dest: "{{ ansible_env.HOME }}"
+    dest: "{{ lookup('env', 'HOME') }}"
     mode: "0400"
 
 - name: Link zshrc
   shell:
-    cmd: "ln -f -s {{ playbook_dir }}/config_files/zshrc {{ ansible_env.HOME }}/.zshrc"
-    creates: "{{ ansible_env.HOME }}/.zshrc"
+    cmd: "ln -f -s {{ playbook_dir }}/config_files/zshrc {{ lookup('env', 'HOME') }}/.zshrc"
+    creates: "{{ lookup('env', 'HOME') }}/.zshrc"
 
 - name: Link gitconfig
   shell:
-    cmd: "ln -f -s {{ playbook_dir }}/config_files/gitconfig {{ ansible_env.HOME }}/.gitconfig"
-    creates: "{{ ansible_env.HOME }}/.gitconfig"
+    cmd: "ln -f -s {{ playbook_dir }}/config_files/gitconfig {{ lookup('env', 'HOME') }}/.gitconfig"
+    creates: "{{ lookup('env', 'HOME') }}/.gitconfig"
 
 - name: Link tmux.conf
   shell:
-    cmd: "ln -f -s {{ playbook_dir }}/config_files/tmux.conf {{ ansible_env.HOME }}/.tmux.conf"
-    creates: "{{ ansible_env.HOME }}/.tmux.conf"
+    cmd: "ln -f -s {{ playbook_dir }}/config_files/tmux.conf {{ lookup('env', 'HOME') }}/.tmux.conf"
+    creates: "{{ lookup('env', 'HOME') }}/.tmux.conf"
 
 - name: Create .zsh directory
   shell:
-    cmd: "mkdir -p {{ansible_env.HOME}}/.zsh/plugins"
-    creates: "{{ansible_env.HOME}}/.zsh/plugins"
+    cmd: "mkdir -p {{lookup('env', 'HOME')}}/.zsh/plugins"
+    creates: "{{lookup('env', 'HOME')}}/.zsh/plugins"
 
 - name: Link zshrc in .zsh
   shell:
-    cmd: "ln -f -s {{ playbook_dir }}/config_files/zshrc {{ ansible_env.HOME }}/.zsh/.zshrc"
-    creates: "{{ ansible_env.HOME }}/.zsh/.zshrc"
+    cmd: "ln -f -s {{ playbook_dir }}/config_files/zshrc {{ lookup('env', 'HOME') }}/.zsh/.zshrc"
+    creates: "{{ lookup('env', 'HOME') }}/.zsh/.zshrc"
 
 - name: Install zsh-autosuggestions
   shell:
-    cmd: git clone https://github.com/zsh-users/zsh-autosuggestions {{ ansible_env.HOME }}/.zsh/plugins/zsh-autosuggestions
-    creates: "{{ ansible_env.HOME }}/.zsh/plugins/zsh-autosuggestions"
+    cmd: git clone https://github.com/zsh-users/zsh-autosuggestions {{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-autosuggestions
+    creates: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-autosuggestions"
 
 - name: Install zsh-syntax-highlighting
   shell:
-    cmd: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ ansible_env.HOME }}/.zsh/plugins/zsh-syntax-highlighting
-    creates: "{{ ansible_env.HOME }}/.zsh/plugins/zsh-syntax-highlighting"
+    cmd: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-syntax-highlighting
+    creates: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-syntax-highlighting"
 
 - name: Install zsh-you-should-use
   shell:
-    cmd: git clone https://github.com/MichaelAquilina/zsh-you-should-use.git {{ ansible_env.HOME }}/.zsh/plugins/zsh-you-should-use
-    creates: "{{ ansible_env.HOME }}/.zsh/plugins/zsh-you-should-use"
+    cmd: git clone https://github.com/MichaelAquilina/zsh-you-should-use.git {{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-you-should-use
+    creates: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-you-should-use"
 
 - name: Install nvm
   shell:
     cmd: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+    creates: "{{ lookup('env', 'HOME') }}/.nvm/nvm.sh"
 
 - name: Install nodejs && npm
   shell:
-    cmd: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install v18.16.0"
+    cmd: "source {{ lookup('env', 'HOME') }}/.nvm/nvm.sh && nvm install v18.16.0"
     executable: /usr/bin/zsh
-    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/v18.16.0"
+    creates: "{{ lookup('env', 'HOME') }}/.nvm/versions/node/v18.16.0"
 
 - name: Clone tmux
   shell:
-    cmd: "git clone https://github.com/tmux/tmux.git {{ ansible_env.HOME }}/.local/other/tmux"
-    creates: "{{ ansible_env.HOME }}/.local/other/tmux"
+    cmd: "git clone https://github.com/tmux/tmux.git {{ lookup('env', 'HOME') }}/.local/other/tmux"
+    creates: "{{ lookup('env', 'HOME') }}/.local/other/tmux"
 
 - name: "Install tmux version {{ tmux_version }}"
   shell:
@@ -117,31 +121,32 @@
       make && \
       sudo cp tmux /usr/local/bin/tmux && \
       touch tmux.{{ tmux_version }}"
-    chdir: "{{ ansible_env.HOME }}/.local/other/tmux"
-    creates: "{{ ansible_env.HOME }}/.local/other/tmux/tmux.{{ tmux_version }}"
+    chdir: "{{ lookup('env', 'HOME') }}/.local/other/tmux"
+    creates: "{{ lookup('env', 'HOME') }}/.local/other/tmux/tmux.{{ tmux_version }}"
 
 - name: Install tmux tpm
   shell:
-    cmd: "git clone https://github.com/tmux-plugins/tpm {{ ansible_env.HOME }}/.tmux/plugins/tpm"
-    creates: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+    cmd: "git clone https://github.com/tmux-plugins/tpm {{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
+    creates: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
 
 - name: "Install lazygit {{ lazygit_version }}"
+  become: yes
   shell:
-    cmd: "curl -Lo lazygit.tar.gz https://github.com/jesseduffield/lazygit/releases/download/v{{ lazygit_version }}/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz && \
+    cmd: "curl -Lo lazygit.tar.gz https://github.com/jesseduffield/lazygit/releases/download/v{{ lazygit_version }}/lazygit_{{ lazygit_version }}_linux_x86_64.tar.gz && \
       tar xf lazygit.tar.gz lazygit && \
-      sudo install lazygit /usr/local/bin && sudo touch /usr/local/bin/lazygit.{{ lazygit_version }} && \
+      install lazygit /usr/local/bin && touch /usr/local/bin/lazygit.{{ lazygit_version }} && \
       rm -rf lazygit*"
     creates: "/usr/local/bin/lazygit.{{ lazygit_version }}"
 
 - name: "Clone bat"
   shell:
-    cmd: "git clone https://github.com/sharkdp/bat.git {{ ansible_env.HOME }}/.local/other/bat"
-    creates: "{{ ansible_env.HOME }}/.local/other/bat"
+    cmd: "git clone https://github.com/sharkdp/bat.git {{ lookup('env', 'HOME') }}/.local/other/bat"
+    creates: "{{ lookup('env', 'HOME') }}/.local/other/bat"
 
 - name: "Install bat version {{ bat_version }}"
   shell:
     cmd: "git fetch --all && git checkout {{ bat_version }} && \
       cargo install --locked bat &&
       touch bat.{{ bat_version }}"
-    chdir: "{{ ansible_env.HOME }}/.local/other/bat"
-    creates: "{{ ansible_env.HOME }}/.local/other/bat/bat.{{ bat_version }}"
+    chdir: "{{ lookup('env', 'HOME') }}/.local/other/bat"
+    creates: "{{ lookup('env', 'HOME') }}/.local/other/bat/bat.{{ bat_version }}"

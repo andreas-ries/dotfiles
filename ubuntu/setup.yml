@@ -26,26 +26,26 @@
 
 - name: Install neovim version {{ neovim_version }}
   shell:
-    cmd: "mkdir -p {{ ansible_env.HOME }}/.neovim/{{ neovim_version }} && \
+    cmd: "mkdir -p {{ lookup('env', 'HOME') }}/.neovim/{{ neovim_version }} && \
       curl -LO https://github.com/neovim/neovim/releases/download/{{ neovim_version }}/nvim-linux-x86_64.tar.gz && \
-      tar xzvf nvim-linux-x86_64.tar.gz -C {{ ansible_env.HOME }}/.neovim/{{ neovim_version }} --strip-components=1 && \
+      tar xzvf nvim-linux-x86_64.tar.gz -C {{ lookup('env', 'HOME') }}/.neovim/{{ neovim_version }} --strip-components=1 && \
       rm -f nvim-linux-x86_64.tar.gz"
-    creates: "{{ ansible_env.HOME }}/.neovim/{{ neovim_version }}/bin/nvim"
+    creates: "{{ lookup('env', 'HOME') }}/.neovim/{{ neovim_version }}/bin/nvim"
 
 - name: Install neovim config
   shell:
-    cmd: "git clone git@github.com:andreas-ries/nvim.git {{ ansible_env.HOME }}/.config/nvim && \
-      {{ ansible_env.HOME }}/.neovim/{{ neovim_version }}/bin/nvim --headless \"+Lazy! sync\" +qa"
-    creates: "{{ ansible_env.HOME }}/.config/nvim"
+    cmd: "git clone git@github.com:andreas-ries/nvim.git {{ lookup('env', 'HOME') }}/.config/nvim && \
+      {{ lookup('env', 'HOME') }}/.neovim/{{ neovim_version }}/bin/nvim --headless \"+Lazy! sync\" +qa"
+    creates: "{{ lookup('env', 'HOME') }}/.config/nvim"
 
 - name: Install custom font
   shell:
-    cmd: "mkdir {{ ansible_env.HOME }}/.fonts && \
+    cmd: "mkdir {{ lookup('env', 'HOME') }}/.fonts && \
       curl -LO https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/DejaVuSansMono.zip && \
-      unzip DejaVuSansMono.zip -d {{ ansible_env.HOME }}/.fonts && \
+      unzip DejaVuSansMono.zip -d {{ lookup('env', 'HOME') }}/.fonts && \
       rm DejaVuSansMono.zip && \
       fc-cache -f -v"
-    creates: "{{ ansible_env.HOME }}/.fonts"
+    creates: "{{ lookup('env', 'HOME') }}/.fonts"
 
 - name: Setup docker apt repository
   become: yes

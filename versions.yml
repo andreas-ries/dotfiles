@@ -1,8 +1,8 @@
 ---
 tmux_version: 3.5a
-fzf_version: v0.60.3
-lazygit_version: 0.47.2
+fzf_version: v0.70.0
+lazygit_version: 0.60.0
 sesh_version: latest
-alacritty_version: v0.15.1
-neovim_version: v0.10.4
-bat_version: v0.25.0
+alacritty_version: v0.16.0
+neovim_version: v0.11.6
+bat_version: v0.26.1
